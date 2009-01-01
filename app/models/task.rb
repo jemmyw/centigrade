@@ -26,4 +26,8 @@ class Task < ActiveRecord::Base
       update_attributes(:finished_at => Time.now, :status => TaskStatus::WAITING)
     end
   end
+
+  def options_as_hash
+    Hash[*options.collect{|option| [option.name, option.value]}.flatten]
+  end
 end

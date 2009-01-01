@@ -1,7 +1,6 @@
 require 'subversion'
 
-class Svn < Centigrade::Task::Base
-
+class SvnTask < CentigradeTask::Base
   attribute :url, :required => true
   attribute :username
   attribute :password

@@ -1,8 +1,9 @@
 require File.dirname(__FILE__) + '/../test_helper'
 
-class TestTask < Centigrade::Task::Base
+class TestTask < CentigradeTask::Base
   attribute :test_attribute
   attribute :test_required_attribute, :required => true
+  attribute :test_default_attribute, :default => 'mongoose'
 
   def execute!
     "hello"
@@ -23,6 +24,10 @@ class CentigradeTaskTest < ActiveSupport::TestCase
       assert_equal 'required test', @task.test_required_attribute
     end
 
+    should 'have the default attribute filled in' do
+      assert_equal 'mongoose', @task.test_default_attribute
+    end
+
     should 'set project and path then call execute! when execute is called' do
       project = Factory(:project)
       task = Factory(:task)
@@ -35,7 +40,7 @@ class CentigradeTaskTest < ActiveSupport::TestCase
   end
 
   should 'error if created without required attribute' do
-    assert_raise Centigrade::Task::Attributes::AttributeError do
+    assert_raise CentigradeTask::Attributes::AttributeError do
       TestTask.new(:test_attribute => 'test')
     end
   end

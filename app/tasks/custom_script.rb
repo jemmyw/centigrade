@@ -1,4 +1,4 @@
-class CustomScript < Centigrade::Task::Base
+class CustomScript < CentigradeTask::Base
   
 
   def execute

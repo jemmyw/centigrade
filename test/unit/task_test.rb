@@ -6,13 +6,15 @@ class TaskTest < ActiveSupport::TestCase
   should_have_many :options
   should_have_many :messages
 
-  context 'task instance' do
+  context 'test task instance' do
     setup do
       @project = Factory(:project)
       @pipeline = @project.pipelines.first
       @task = @pipeline.tasks.first
       
       @task.started_at = nil; @task.finished_at = nil; @task.status = TaskStatus::WAITING
+      
+      TaskExecuter.any_instance.stubs(:execute).returns(true)
     end
 
     should 'create a task executer on execute' do
@@ -38,6 +40,17 @@ class TaskTest < ActiveSupport::TestCase
       message_count = @task.messages.size
       @task.execute
       assert_equal message_count+1, @task.messages.size
+    end
+  end
+  
+  context "svn task instance" do
+    setup do
+      @task = Factory(:svn_task)
+    end
+
+    should 'options_as_hash should create a hash from the options array' do
+      hash = @task.options_as_hash
+      assert_equal({'url' => 'svn://example.com', 'username' => 'test', 'password' => 'test'}, hash)
     end
   end
 end

@@ -12,9 +12,30 @@ class PipelineTest < ActiveSupport::TestCase
 
     should 'should execute first task and stop if it fails' do
       first_task = @pipeline.tasks.first
-      first_task.expects(:execute).returns(TaskExecuter.new(first_task))
+
+      failing_executer = TaskExecuter.new(first_task)
+      failing_executer.stubs(:status).returns(TaskStatus::FAILED)
+      first_task.expects(:execute).returns(failing_executer)
       @pipeline.tasks[1..-1].each{|t| t.expects(:execute).never}
       @pipeline.execute
     end
+
+    should 'should execute second task if first task succeeds' do
+      first_task = @pipeline.tasks.first
+      second_task = @pipeline.tasks[1]
+
+      # Setup the first task
+      succeeding_executor = TaskExecuter.new(first_task)
+      succeeding_executor.stubs(:status).returns(TaskStatus::SUCCESS)
+      first_task.expects(:execute).returns(succeeding_executor)
+
+      # Setup the second task
+      failing_executer = TaskExecuter.new(second_task)
+      second_task = second_task
+      second_task.expects(:execute).returns(failing_executer)
+
+      @pipeline.execute
+    end
+
   end
 end

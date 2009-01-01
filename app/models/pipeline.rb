@@ -6,7 +6,7 @@ class Pipeline < ActiveRecord::Base
     tasks.each do |task|
       executer = task.execute
       executer.execute
-      
+
       if executer.status != TaskStatus::SUCCESS
         break
       end

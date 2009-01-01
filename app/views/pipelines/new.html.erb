@@ -1,0 +1,10 @@
+<h1>New pipeline</h1>
+
+<% form_for([@project, @pipeline]) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit "Create" %>
+  </p>
+<% end %>
+

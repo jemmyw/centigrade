@@ -1,3 +1,14 @@
+<h1><%= @project.name %></h1>
 
+<h2>Pipelines</h2>
+<ul>
+  <% @project.pipelines.each_with_index do |pipeline, index| %>
+    <li>
+      <%= link_to 'Pipeline %d' % (index+1), [@project, pipeline] %>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Create Pipeline', new_project_pipeline_path(@project) %>
 <%= link_to 'Edit', edit_project_path(@project) %> |
 <%= link_to 'Back', projects_path %>

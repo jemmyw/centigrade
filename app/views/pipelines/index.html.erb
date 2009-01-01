@@ -1,0 +1,19 @@
+<h1>Listing pipelines for <%= @project.name %></h1>
+
+<table>
+  <tr>
+  </tr>
+
+<% @pipelines.each_with_index do |pipeline, index| %>
+  <tr>
+    <td>Pipeline <%= index+1 %>
+    <td><%= link_to 'Show', [@project, pipeline] %></td>
+    <td><%= link_to 'Edit', edit_project_pipeline_path(@project, pipeline) %></td>
+    <td><%= link_to 'Destroy', [@project, pipeline], :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New pipeline', new_project_pipeline_path(@project) %>

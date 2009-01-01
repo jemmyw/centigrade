@@ -4,4 +4,40 @@ class TaskTest < ActiveSupport::TestCase
   should_require_attributes :name
   should_belong_to :pipeline
   should_have_many :options
+  should_have_many :messages
+
+  context 'task instance' do
+    setup do
+      @project = Factory(:project)
+      @pipeline = @project.pipelines.first
+      @task = @pipeline.tasks.first
+      
+      @task.started_at = nil; @task.finished_at = nil; @task.status = TaskStatus::WAITING
+    end
+
+    should 'create a task executer on execute' do
+      executer = @task.execute
+      assert_equal TaskExecuter, executer.class
+    end
+
+    should 'update started_at and finished_at on execute' do
+      @task.execute
+      assert @task.started_at.is_a?(Time)
+      assert @task.finished_at.is_a?(Time)
+      assert @task.finished_at >= @task.started_at
+    end
+
+    should 'set status to running when waiting when executed' do
+      status = states('status').starts_as('waiting')
+      @task.expects(:status=).with(TaskStatus::RUNNING).when(status.is('waiting')).then(status.is('running'))
+      @task.expects(:status=).with(TaskStatus::WAITING).when(status.is('running'))
+      @task.execute
+    end
+
+    should 'always have a new message after execution' do
+      message_count = @task.messages.size
+      @task.execute
+      assert_equal message_count+1, @task.messages.size
+    end
+  end
 end

@@ -4,6 +4,13 @@ class CreateTasks < ActiveRecord::Migration
       t.string    :name
       t.integer   :pipeline_id
       t.integer   :position
+      
+      t.string    :task_type
+
+      t.timestamp :started_at
+      t.timestamp :finished_at
+      t.string    :status
+
       t.timestamps
     end
   end

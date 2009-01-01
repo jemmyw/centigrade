@@ -11,10 +11,10 @@ class TaskExecuter
   end
 
   def status
-    TaskStatus::FAILED
+    @task_object.status
   end
 
   def message
-    ''
+    @task_object.message
   end
 end

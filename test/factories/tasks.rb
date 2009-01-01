@@ -1,11 +1,4 @@
-class TestTask < CentigradeTask::Base
-  attribute :test_attribute
-  attribute :test_required_attribute, :required => true
-
-  def execute!
-    "hello"
-  end
-end
+require 'test/fixtures/test_task'
 
 Factory.define :task do |t|
   t.name "Test task"

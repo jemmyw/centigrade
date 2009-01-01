@@ -15,6 +15,8 @@ class TaskTest < ActiveSupport::TestCase
       @task.started_at = nil; @task.finished_at = nil; @task.status = TaskStatus::WAITING
       
       TaskExecuter.any_instance.stubs(:execute).returns(true)
+      TaskExecuter.any_instance.stubs(:status).returns(TaskStatus::SUCCESS)
+      TaskExecuter.any_instance.stubs(:message).returns('Test message')
     end
 
     should 'create a task executer on execute' do
@@ -40,6 +42,10 @@ class TaskTest < ActiveSupport::TestCase
       message_count = @task.messages.size
       @task.execute
       assert_equal message_count+1, @task.messages.size
+
+      message = @task.messages.last
+      assert_equal TaskStatus::SUCCESS, message.status
+      assert_equal "Test message", message.message
     end
   end
   

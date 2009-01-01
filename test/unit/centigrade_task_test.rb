@@ -1,14 +1,5 @@
 require File.dirname(__FILE__) + '/../test_helper'
-
-class TestTask < CentigradeTask::Base
-  attribute :test_attribute
-  attribute :test_required_attribute, :required => true
-  attribute :test_default_attribute, :default => 'mongoose'
-
-  def execute!
-    "hello"
-  end
-end
+require 'test/fixtures/test_task'
 
 class CentigradeTaskTest < ActiveSupport::TestCase
   context 'a task instance' do

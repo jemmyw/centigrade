@@ -38,6 +38,8 @@ module CentigradeTask
   end
 
   class Base
+    attr_reader :status, :message
+
     def initialize(attributes = {})
       initialize_attributes(attributes)
     end
@@ -51,6 +53,9 @@ module CentigradeTask
     def execute!
 
     end
+    
+    private
+    attr_writer :status, :message
   end
 
   Base.class_eval do

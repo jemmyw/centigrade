@@ -1,7 +1,5 @@
 class CustomScript < CentigradeTask::Base
-  
-
-  def execute
+  def execute!
+    false
   end
-
 end

@@ -16,5 +16,7 @@ class SvnTask < CentigradeTask::Base
     @options[:password] = self.password unless self.password.blank?
 
     @subversion = Subversion.new(@options)
+    
+    self.status = TaskStatus::SUCCESS
   end
 end

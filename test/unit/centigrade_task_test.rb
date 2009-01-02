@@ -5,6 +5,7 @@ class CentigradeTaskTest < ActiveSupport::TestCase
   context 'a task instance' do
     setup do
       @task = TestTask.new(
+        '/tmp',
         :test_attribute => 'test',
         :test_required_attribute => 'required test'
       )
@@ -20,19 +21,15 @@ class CentigradeTaskTest < ActiveSupport::TestCase
     end
 
     should 'set project and path then call execute! when execute is called' do
-      project = Factory(:project)
-      task = Factory(:task)
-
       @task.expects(:execute!).returns('hello')
-      assert_equal 'hello', @task.execute(project, task)
-      assert_equal project, @task.instance_variable_get('@project')
-      assert_equal task, @task.instance_variable_get('@task')
+      assert_equal 'hello', @task.execute
+      assert_equal '/tmp', @task.instance_variable_get('@path')
     end
   end
 
   should 'error if created without required attribute' do
     assert_raise CentigradeTask::Attributes::AttributeError do
-      TestTask.new(:test_attribute => 'test')
+      TestTask.new('/tmp', :test_attribute => 'test')
     end
   end
 end

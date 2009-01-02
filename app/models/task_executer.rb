@@ -6,8 +6,8 @@ class TaskExecuter
   def execute
     @options = @task.options_as_hash
     @task_klass = Kernel.const_get(@task.task_type)
-    @task_object = @task_klass.new(@options)
-    @task_object.execute(@task.pipeline.project, @task)
+    @task_object = @task_klass.new(@task.pipeline.project.path, @options)
+    @task_object.execute
   end
 
   def status

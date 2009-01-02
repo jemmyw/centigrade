@@ -17,6 +17,6 @@ class SvnTask < CentigradeTask::Base
 
     @subversion = Subversion.new(@options)
     
-    self.status = TaskStatus::SUCCESS
+    status TaskStatus::SUCCESS
   end
 end

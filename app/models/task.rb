@@ -3,6 +3,7 @@ require 'ostruct'
 module TaskStatus
   SUCCESS = 'success'
   FAILED  = 'failed'
+  WAIT    = 'wait'
   WAITING = 'waiting'
   RUNNING = 'running'
 end

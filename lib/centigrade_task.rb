@@ -1,3 +1,5 @@
+require 'fileutils'
+
 module CentigradeTask
   module Attributes
     class AttributeError < Exception
@@ -13,9 +15,10 @@ module CentigradeTask
 
       @attributes = {}
 
+      self.class.attributes.freeze
       self.class.attributes.each do |key, options|
         if options[:required] && !attributes.has_key?(key)
-          raise AttributeError.new('Required attribute not found: %s' % key)
+          raise AttributeError.new('Required attribute not found for %s: %s' % [self.class.name, key])
         end
 
         @attributes[key] = attributes[key] || options[:default] || nil
@@ -24,38 +27,59 @@ module CentigradeTask
 
     module ClassMethods
       def attribute(name, options = {})
+        metaclass.instance_eval do
+          @attributes = {:hi => true}
+
+          define_method(:attributes) do
+            @attributes ||= {}
+          end
+        end
+
         attributes[name] = options
-          
-        define_method(name) do |*params|
+
+        define_method(name) do
           @attributes[name]
         end
-      end
-
-      def attributes
-        @@attributes ||= {}
       end
     end
   end
 
   class Base
-    attr_reader :status, :message
+    def initialize(path, attributes = {})
+      @path = path
+      @data_path = File.join(@path, self.class.name)
+      FileUtils.mkdir_p(path)
 
-    def initialize(attributes = {})
       initialize_attributes(attributes)
+
+      @data = Marshal.load(File.read(@data_path)) if File.exists?(@data_path)
     end
 
-    def execute(project, task)
-      @project = project
-      @task = task
-      execute!
+    def execute
+      returning execute! do
+        File.open(@data_path, 'w') do |file|
+          file.write Marshal.dump(data)
+        end
+      end
     end
       
     def execute!
-
+      raise "Must be implemented by inherited class"
     end
-    
-    private
-    attr_writer :status, :message
+
+    def data
+      @data ||= {}
+    end
+
+    def status(*args)
+      @status = args.first if args.any?
+      @status
+    end
+
+    def message(*args)
+      @message = args.first if args.any?
+      @message
+    end
   end
 
   Base.class_eval do

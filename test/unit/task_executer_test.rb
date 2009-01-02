@@ -18,6 +18,7 @@ class TaskExecuterTest < ActiveSupport::TestCase
 
     should 'create the appropriate task class with attributes and execute' do
       TestTask.any_instance.expects(:initialize).with(
+        @project.path,
         {'test_attribute' => 'hello', 'test_required_attribute' => 'goodbye'}
       )
       TestTask.any_instance.expects(:execute)

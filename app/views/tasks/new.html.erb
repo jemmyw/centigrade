@@ -6,18 +6,17 @@
   <p>
     <%= f.select(:task_type, @task_types.collect{|tt| [tt.name.titleize, tt.name] },{},
       :onchange => remote_function(
-        :update => 'task_type_options',
         :url => {
           :action => 'new',
         },
         :method => :get,
-        :with => "$F('task_task_type')"
+        :with => "Form.serialize('new_task')"
       )
     ) %>
   </p>
 
   <div id="task_type_options">
-    
+    <%= render :partial => 'task_attribute_form' %>
   </div>
 
 

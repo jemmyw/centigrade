@@ -16,12 +16,12 @@ module CentigradeTask
       @attributes = {}
 
       self.class.attributes.freeze
-      self.class.attributes.each do |key, options|
-        if options[:required] && !attributes.has_key?(key)
-          raise AttributeError.new('Required attribute not found for %s: %s' % [self.class.name, key])
+      self.class.attributes.each do |options|
+        if options[:required] && !attributes.has_key?(options[:name])
+          raise AttributeError.new('Required attribute not found for %s: %s' % [self.class.name, options[:name]])
         end
 
-        @attributes[key] = attributes[key] || options[:default] || nil
+        @attributes[options[:name]] = attributes[options[:name]] || options[:default] || nil
       end
     end
 
@@ -31,11 +31,12 @@ module CentigradeTask
           @attributes = {:hi => true}
 
           define_method(:attributes) do
-            @attributes ||= {}
+            @attributes ||= []
           end
         end
 
-        attributes[name] = options
+        options[:name] = name
+        attributes.push(options)
 
         define_method(name) do
           @attributes[name]

@@ -6,6 +6,16 @@ class TaskTest < ActiveSupport::TestCase
   should_have_many :options
   should_have_many :messages
 
+  context 'task with no task_type' do
+    setup do
+      @task = Factory(:task, :task_type => nil)
+    end
+
+    should 'return nil as the task class' do
+      assert @task.task_type_class.nil?
+    end
+  end
+
   context 'test task instance' do
     setup do
       @project = Factory(:project)

@@ -2,6 +2,29 @@ require File.dirname(__FILE__) + '/../test_helper'
 require 'test/fixtures/test_task'
 
 class CentigradeTaskTest < ActiveSupport::TestCase
+  context 'a task class' do
+    should 'have an array of attributes represented as hashes each having a name' do
+      assert TestTask.attributes.is_a?(Array)
+
+      TestTask.attributes.each do |attribute|
+        assert attribute.is_a?(Hash)
+        assert attribute.has_key?(:name)
+      end
+    end
+
+    should 'have an attribute named :test_attribute' do
+      assert TestTask.attributes.include?({:name => :test_attribute})
+    end
+
+    should 'have an attribute named :test_required_attribute with :required => true' do
+      assert TestTask.attributes.include?({:name => :test_required_attribute, :required => true})
+    end
+
+    should 'have 3 attributes' do
+      assert_equal 3, TestTask.attributes.length
+    end
+  end
+
   context 'a task instance' do
     setup do
       @task = TestTask.new(

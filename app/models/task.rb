@@ -33,6 +33,6 @@ class Task < ActiveRecord::Base
   end
 
   def task_type_class
-    @task_type_class ||= Kernel.const_get(self.task_type)
+    @task_type_class ||= Kernel.const_get(self.task_type) rescue nil
   end
 end

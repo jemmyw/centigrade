@@ -1,0 +1,6 @@
+<% @task.task_type_class.attributes.each do |attribute| %>
+  <p>
+    <label><%= attribute[:name].titleize %></label>
+    <%= text_field_tag 'attributes[%s]' % attribute[:name] %>
+  </p>
+<% end if @task.task_type_class && @task.task_type_class.respond_to?(:attributes) %>

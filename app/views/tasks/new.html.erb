@@ -4,6 +4,24 @@
   <%= f.error_messages %>
 
   <p>
+    <%= f.select(:task_type, @task_types.collect{|tt| [tt.name.titleize, tt.name] },{},
+      :onchange => remote_function(
+        :update => 'task_type_options',
+        :url => {
+          :action => 'new',
+        },
+        :method => :get,
+        :with => "$F('task_task_type')"
+      )
+    ) %>
+  </p>
+
+  <div id="task_type_options">
+    
+  </div>
+
+
+  <p>
     <%= f.submit "Create" %>
   </p>
 <% end %>

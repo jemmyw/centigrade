@@ -31,4 +31,8 @@ class Task < ActiveRecord::Base
   def options_as_hash
     Hash[*options.collect{|option| [option.name, option.value]}.flatten]
   end
+
+  def task_type_class
+    @task_type_class ||= Kernel.const_get(self.task_type)
+  end
 end

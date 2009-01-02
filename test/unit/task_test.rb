@@ -19,6 +19,10 @@ class TaskTest < ActiveSupport::TestCase
       TaskExecuter.any_instance.stubs(:message).returns('Test message')
     end
 
+    should 'return the task class on task_type_class' do
+      assert_equal TestTask, @task.task_type_class
+    end 
+
     should 'create a task executer on execute' do
       executer = @task.execute
       assert_equal TaskExecuter, executer.class

@@ -2,6 +2,16 @@ require 'fileutils'
 
 module CentigradeTask
   module Attributes
+    class AttributeArray < DelegateClass(Array)
+      def initialize
+        super(Array.new)
+      end
+
+      def [](*n)
+        n.length > 1 || n.first.is_a?(Fixnum) ? super(*n) : detect{|attr| attr[:name] == n.first }
+      end
+    end
+
     class AttributeError < Exception
         
     end
@@ -31,7 +41,7 @@ module CentigradeTask
           @attributes = {:hi => true}
 
           define_method(:attributes) do
-            @attributes ||= []
+            @attributes ||= AttributeArray.new
           end
         end
 

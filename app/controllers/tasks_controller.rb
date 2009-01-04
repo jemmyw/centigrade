@@ -6,6 +6,7 @@ class TasksController < ApplicationController
 
   def new
     self.resource = new_resource
+    self.resource.task_type ||= @task_types.first.name
 
     respond_to do |format|
       format.html # new.html.erb

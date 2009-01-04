@@ -2,7 +2,6 @@ require 'English'
 
 # borrowed (with modifications) from the RSCM project
 module CommandLine
-
   QUOTE_REPLACEMENT = (Platform.family == "mswin32") ? '"' : '\\"'
   LESS_THAN_REPLACEMENT = (Platform.family == "mswin32") ? '<' : '\\<'
 
@@ -77,10 +76,11 @@ module CommandLine
 
   def e(cmd, options, &proc)
     full_cmd = full_cmd(cmd, options, &proc)
+    puts full_cmd
 
     options[:env].each{|k,v| ENV[k]=v}
     begin
-      CruiseControl::Log.debug "#{Platform.prompt} #{format_for_printing(cmd)}" if options[:stdout].nil?
+#      CruiseControl::Log.debug "#{Platform.prompt} #{format_for_printing(cmd)}" if options[:stdout].nil?
       result = IO.popen(full_cmd, options[:mode]) do |io|
         if proc
           proc.call(io)

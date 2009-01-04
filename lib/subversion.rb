@@ -76,8 +76,8 @@ class Subversion
       externals.each do |ext_path, ext_url|
         ext_logger = ExternalReasons.new(ext_path, reasons)
         ext_svn = Subversion.new(:path => File.join(self.path, ext_path), 
-                                 :url => ext_url, 
-                                 :check_externals => false)
+          :url => ext_url,
+          :check_externals => false)
         result = false unless ext_svn.up_to_date?(ext_logger)
       end
     end
@@ -97,7 +97,15 @@ class Subversion
     svn_output = svn('propget', ['-R', 'svn:externals'])
     Subversion::PropgetParser.new.parse(svn_output)
   end
-  
+
+  def info(remote=false)
+    args = []
+    args << @url if remote
+    args << '--xml'
+    svn_output = svn('info', args)
+    Subversion::InfoParser.new.parse(svn_output)
+  end
+
   private
   
   def revisions_since(revision_number)
@@ -109,11 +117,6 @@ class Subversion
 
   def log(from, to, arguments = [])
     svn('log', arguments + ["--revision", "#{from}:#{to}", '--verbose', '--xml', url], :execute_locally => url.blank?)
-  end
-  
-  def info
-    svn_output = svn('info', ["--xml"])    
-    Subversion::InfoParser.new.parse(svn_output)
   end
 
   def svn(operation, arguments, options = {}, &block)

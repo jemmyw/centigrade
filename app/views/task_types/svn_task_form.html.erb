@@ -1,0 +1,16 @@
+<div id="svn_attributes">
+  <% @attributes.each do |attribute| %>
+    <div class="field <%= 'required' if attribute[:required] %>">
+      <label><%= attribute[:name].to_s.titleize %></label>
+      <%= attribute_field(attribute) %>
+    </div>
+  <% end %>
+</div>
+
+<div id="svn_verify"></div>
+
+<%= button_to_remote('Verify',
+  :url => task_type_method_url(:class => @task_type.name, :method => 'verify'),
+  :with => "Form.serialize($('svn_attributes'))",
+  :success => "$('svn_verify').update(request.responseText)"
+)%>

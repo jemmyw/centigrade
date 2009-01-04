@@ -1,0 +1,15 @@
+<%#= attribute_task_field(@task_type.attributes.first) %>
+
+<div class="required field">
+  <select name="<%= attribute_field_name(@attributes[:task_id]) %>">
+    <% Project.all.each do |project| %>
+      <% project.pipelines.each_with_index do |pipeline, index| %>
+        <optgroup label="<%= project.name %> - Pipeline <%= index+1 %>">
+          <% pipeline.tasks.each do |task| %>
+            <option value="<%= task.id %>"><%= task.name %></option>
+          <% end %>
+        </optgroup>
+      <% end %>
+    <% end %>
+  </select>
+</div>

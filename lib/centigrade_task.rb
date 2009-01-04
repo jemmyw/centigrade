@@ -36,6 +36,10 @@ module CentigradeTask
     end
 
     module ClassMethods
+      def attributes
+        AttributeArray.new
+      end
+
       def attribute(name, options = {})
         metaclass.instance_eval do
           @attributes = {:hi => true}

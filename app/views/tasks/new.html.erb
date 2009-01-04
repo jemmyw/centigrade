@@ -3,22 +3,26 @@
 <% form_for(@task) do |f| %>
   <%= f.error_messages %>
 
-  <p>
+  <div class="field required">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field required">
+    <label for='task_task_type'>Task</label>
+    
     <%= f.select(:task_type, @task_types.collect{|tt| [tt.name.titleize, tt.name] },{},
       :onchange => remote_function(
-        :url => {
-          :action => 'new',
-        },
+        :url => new_project_pipeline_task_path(@project, @pipeline),
         :method => :get,
         :with => "Form.serialize('new_task')"
       )
     ) %>
-  </p>
-
-  <div id="task_type_options">
-    <%= render :partial => 'task_attribute_form' %>
   </div>
 
+  <div id="task_type_options">
+    <%= task_type_form(@task.task_type) %>
+  </div>
 
   <p>
     <%= f.submit "Create" %>

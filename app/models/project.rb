@@ -1,5 +1,7 @@
 class Project < ActiveRecord::Base
   has_many :pipelines
+  has_many :tasks, :through => :pipelines
+
   validates_presence_of :name
 
   def path

@@ -1,3 +1,8 @@
+<ul>
+  <% @pipeline.tasks.each do |task| %>
+    <li><%= link_to task.name, [@project, @pipeline, task] %></li>
+  <% end %>
+</ul>
 
 <%= link_to 'Edit', edit_project_pipeline_path(@project, @pipeline) %> |
 <%= link_to 'Back', project_pipelines_path(@project) %>

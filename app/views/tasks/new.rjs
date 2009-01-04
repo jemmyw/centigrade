@@ -1,1 +1,1 @@
-page.replace_html 'task_type_options', :partial => 'task_attribute_form'
+page.replace_html 'task_type_options', task_type_form(@task.task_type)

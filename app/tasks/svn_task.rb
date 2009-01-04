@@ -35,4 +35,14 @@ class SvnTask < CentigradeTask::Base
     
     status TaskStatus::SUCCESS
   end
+
+  def self.verify(attributes)
+    begin
+      subversion = Subversion.new(attributes)
+      subversion.info(true)
+      "Verified"
+    rescue Exception => e
+      "Error: #{e}"
+    end
+  end
 end

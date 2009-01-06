@@ -7,6 +7,8 @@ class ProjectTest < ActiveSupport::TestCase
   context 'a project instance' do
     setup do
       @project = Factory(:project)
+      @project.pipelines << Factory(:pipeline, :project => @project)
+      @project.pipelines(true)
     end
 
     should 'execute pipelines when executed' do

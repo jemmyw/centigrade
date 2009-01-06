@@ -1,0 +1,29 @@
+<% form_for_resource(:html => {:id => 'new_task'}) do |f| %>
+  <%= f.error_messages %>
+  <%= f.hidden_field :pipeline_id %>
+
+  <div class="field required">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field required">
+    <label for='task_task_type'>Task</label>
+
+    <%= f.select(:task_type, @task_types.collect{|tt| [tt.name.titleize, tt.name] },{},
+      :onchange => remote_function(
+        :url => new_resource_path,
+        :method => :get,
+        :with => "Form.serialize('new_task')"
+      )
+    ) %>
+  </div>
+
+  <div id="task_type_options">
+    <%= task_type_form(@task.task_type) %>
+  </div>
+
+  <p>
+    <%= f.submit "Save" %>
+  </p>
+<% end %>

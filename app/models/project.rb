@@ -9,7 +9,7 @@ class Project < ActiveRecord::Base
   end
 
   def execute
-    @pipelines.each do |pipeline|
+    pipelines.each do |pipeline|
       pipeline.execute
     end
   end

@@ -1,12 +1,6 @@
 <h1>Editing task</h1>
 
-<% form_for(@task) do |f| %>
-  <%= f.error_messages %>
+<%= render :partial => 'form' %>
 
-  <p>
-    <%= f.submit "Update" %>
-  </p>
-<% end %>
-
-<%= link_to 'Show', @task %> |
-<%= link_to 'Back', tasks_path %>
+<%= link_to 'Show', resource_path %> |
+<%= link_to 'Back', resources_path %>

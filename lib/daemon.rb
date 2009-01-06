@@ -24,7 +24,7 @@ include Centigrade::Daemon
 @projects = Project.all
 logger.info "Found %d projects" % @projects.size
 
-@threads = @pipelines.collect do |project|
+@threads = @projects.collect do |project|
   Thread.new { project.execute }
 end
 

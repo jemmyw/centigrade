@@ -1,32 +1,5 @@
 <h1>New task</h1>
 
-<% form_for(@task) do |f| %>
-  <%= f.error_messages %>
+<%= render :partial => 'form' %>
 
-  <div class="field required">
-    <%= f.label :name %>
-    <%= f.text_field :name %>
-  </div>
-
-  <div class="field required">
-    <label for='task_task_type'>Task</label>
-    
-    <%= f.select(:task_type, @task_types.collect{|tt| [tt.name.titleize, tt.name] },{},
-      :onchange => remote_function(
-        :url => new_project_pipeline_task_path(@project, @pipeline),
-        :method => :get,
-        :with => "Form.serialize('new_task')"
-      )
-    ) %>
-  </div>
-
-  <div id="task_type_options">
-    <%= task_type_form(@task.task_type) %>
-  </div>
-
-  <p>
-    <%= f.submit "Create" %>
-  </p>
-<% end %>
-
-<%= link_to 'Back', tasks_path %>
+<%= link_to 'Back', resources_path %>

@@ -18,13 +18,6 @@ module TasksHelper
     attribute_text_field(attribute)
   end
 
-  def attribute_task_field(attribute)
-    tasks = @project.pipelines.collect(&:tasks).flatten
-    select_tag 'attributes[%s]' % attribute[:name], pipeline_task_options_for_select
-
-    #    options_from_collection_for_select(tasks, 'id', 'name')
-  end
-
   def pipeline_task_options_for_select(selected = nil)
     groups = []
 
@@ -43,6 +36,6 @@ module TasksHelper
   end
 
   def attribute_text_field(attribute)
-    text_field_tag 'attributes[%s]' % attribute[:name]
+    text_field_tag 'attributes[%s]' % attribute[:name], @task.options.find(:first, :conditions => {:name => attribute[:name].to_s}).try(:value)
   end
 end

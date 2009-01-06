@@ -1,0 +1,17 @@
+<div class="field required">
+  <label>Filename</label>
+  <%= attribute_field(@attributes[:filename]) %>
+</div>
+
+<div class="field">
+  <label>Path</label>
+  <%= attribute_field(@attributes[:path]) %>
+</div>
+
+<textarea name="attributes[contents]" style="width:100%; height: 300px">
+<% if option = @task.options.find(:first, :conditions => {:name => 'contents'}) -%>
+<%= option.value %>
+<% else -%>
+Type file contents here
+<% end -%>
+</textarea>

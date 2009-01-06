@@ -22,7 +22,7 @@ class PipelineTest < ActiveSupport::TestCase
 
       failing_executer = TaskExecuter.new(first_task)
       failing_executer.stubs(:status).returns(TaskStatus::FAILED)
-      first_task.expects(:execute).returns(failing_executer)
+      first_task.expects(:execute).once.returns(failing_executer)
 
       @pipeline.tasks[1..-1].each{|t| t.expects(:execute).never}
       @pipeline.execute
@@ -35,12 +35,12 @@ class PipelineTest < ActiveSupport::TestCase
       # Setup the first task
       succeeding_executor = TaskExecuter.new(first_task)
       succeeding_executor.stubs(:status).returns(TaskStatus::SUCCESS)
-      first_task.expects(:execute).returns(succeeding_executor)
+      first_task.expects(:execute).once.returns(succeeding_executor)
 
       # Setup the second task
       failing_executer = TaskExecuter.new(second_task)
       second_task = second_task
-      second_task.expects(:execute).returns(failing_executer)
+      second_task.expects(:execute).once.returns(failing_executer)
 
       @pipeline.execute
     end

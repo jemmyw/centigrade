@@ -3,7 +3,7 @@ class CreateTaskOptions < ActiveRecord::Migration
     create_table :task_options do |t|
       t.integer   :task_id
       t.string    :name
-      t.string    :value
+      t.text    :value
       t.timestamps
     end
   end

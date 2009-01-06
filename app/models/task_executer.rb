@@ -9,9 +9,8 @@ class TaskExecuter
     @options = @task.options_as_hash
     @task_object = @task.task_type_class.new(@task.pipeline.project.path, @options)
 
-    returning @task_object.execute do |e|
-      $stdout.write "\t\t\t[%s]" % self.status
-    end
+    @task_object.execute
+    $stdout.write "\t\t\t[%s]" % self.status
   end
 
   def status

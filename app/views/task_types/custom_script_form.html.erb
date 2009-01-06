@@ -1,6 +1,14 @@
+<div class="field">
+  <label>Path</label>
+  <%= attribute_field(@attributes[:path]) %>
+</div>
 
-<textarea name="attributes[custom_script]" style="width:100%; height: 300px">
+<textarea name="attributes[script]" style="width:100%; height: 300px">
+<% if option = @task.options.find(:first, :conditions => {:name => 'script'}) -%>
+<%= option.value %>
+<% else -%>
   #!/usr/bin/env ruby
-  
+
   puts "Hello"
+<% end -%>
 </textarea>

@@ -6,6 +6,7 @@ require 'subversion/info_parser'
 require 'subversion/log_parser'
 require 'subversion/propget_parser'
 require 'subversion/update_parser'
+require 'subversion/revision'
 
 class Subversion
   include CommandLine
@@ -63,6 +64,7 @@ class Subversion
   end
   
   def up_to_date?(reasons = [], revision_number = last_locally_known_revision.number)
+    return false
     result = true
     
     latest_revision = self.latest_revision()

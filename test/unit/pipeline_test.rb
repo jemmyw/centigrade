@@ -39,6 +39,7 @@ class PipelineTest < ActiveSupport::TestCase
 
       # Setup the second task
       failing_executer = TaskExecuter.new(second_task)
+      failing_executer.stubs(:status).returns(TaskStatus::FAILED)
       second_task = second_task
       second_task.expects(:execute).once.returns(failing_executer)
 

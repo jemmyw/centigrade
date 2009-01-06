@@ -15,6 +15,7 @@ Factory.define :task do |t|
       m.association(:task_message)
     ]
   }
+  t.association :pipeline
 end
 
 Factory.define :svn_task, :class => Task do |t|
@@ -33,6 +34,7 @@ Factory.define :svn_task, :class => Task do |t|
       m.association(:task_message)
     ]
   }
+  t.association :pipeline
 end
 
 Factory.define :task_option do |t|

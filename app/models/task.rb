@@ -15,7 +15,7 @@ class Task < ActiveRecord::Base
   has_many :options,  :class_name => "TaskOption"
   has_many :messages, :class_name => 'TaskMessage'
 
-  validates_presence_of :name
+  validates_presence_of :name, :pipeline
 
   def execute
     returning TaskExecuter.new(self) do |executer|

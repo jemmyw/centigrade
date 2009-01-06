@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TaskTest < ActiveSupport::TestCase
-  should_require_attributes :name
+  should_require_attributes :name, :pipeline
   should_belong_to :pipeline
   should_have_many :options
   should_have_many :messages
@@ -18,9 +18,7 @@ class TaskTest < ActiveSupport::TestCase
 
   context 'test task instance' do
     setup do
-      @project = Factory(:project)
-      @pipeline = @project.pipelines.first
-      @task = @pipeline.tasks.first
+      @task = Factory(:task)
       
       @task.started_at = nil; @task.finished_at = nil; @task.status = TaskStatus::WAITING
       

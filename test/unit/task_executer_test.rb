@@ -3,9 +3,8 @@ require 'test_helper'
 class TaskExecuterTest < ActiveSupport::TestCase
   context 'task executer instance' do
     setup do
-      @project = Factory(:project)
-      @pipeline = @project.pipelines.first
-      @task = @pipeline.tasks.first
+      @task = Factory(:task)
+      @project = @task.pipeline.project
 
       @task.task_type = 'TestTask'
       @task.options = [

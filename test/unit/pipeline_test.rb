@@ -1,4 +1,4 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class PipelineTest < ActiveSupport::TestCase
   should_belong_to :project
@@ -7,7 +7,14 @@ class PipelineTest < ActiveSupport::TestCase
   context 'a pipeline instance' do
     setup do
       @project = Factory(:project)
-      @pipeline = @project.pipelines.first
+      @pipeline = Factory(:pipeline, :project => @project)
+
+      3.times do
+        @pipeline.tasks << Factory(:task, :pipeline => @pipeline)
+      end
+
+      # reload the tasks after creating them
+      @pipeline.tasks(true)
     end
 
     should 'should execute first task and stop if it fails' do
@@ -16,6 +23,7 @@ class PipelineTest < ActiveSupport::TestCase
       failing_executer = TaskExecuter.new(first_task)
       failing_executer.stubs(:status).returns(TaskStatus::FAILED)
       first_task.expects(:execute).returns(failing_executer)
+
       @pipeline.tasks[1..-1].each{|t| t.expects(:execute).never}
       @pipeline.execute
     end

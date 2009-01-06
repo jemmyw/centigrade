@@ -1,5 +1,5 @@
 class TasksController < ApplicationController
-  before_filter :load_task_types, :only => :new
+  before_filter :load_task_types, :only => [:new, :create]
   layout 'default'
 
   resources_controller_for :tasks

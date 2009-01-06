@@ -64,7 +64,6 @@ class Subversion
   end
   
   def up_to_date?(reasons = [], revision_number = last_locally_known_revision.number)
-    return false
     result = true
     
     latest_revision = self.latest_revision()

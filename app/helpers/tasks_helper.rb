@@ -36,6 +36,6 @@ module TasksHelper
   end
 
   def attribute_text_field(attribute)
-    text_field_tag 'attributes[%s]' % attribute[:name], @task.options.find(:first, :conditions => {:name => attribute[:name].to_s}).try(:value)
+    text_field_tag 'attributes[%s]' % attribute[:name], @task.options.find(:first, :conditions => {:name => attribute[:name].to_s}).andand.value
   end
 end

@@ -1,0 +1,11 @@
+<div class="pipeline" id="pipeline_<%= pipeline.id %>">
+  <div class="number">
+    <%= link_to (pipeline.project.pipelines.index(pipeline)+1).to_s, [pipeline.project, pipeline] %>:
+  </div>
+
+  <% pipeline.tasks.each do |task| %>
+    <div class="task" id="task_<%= task.id %>">
+      <div class="title"><%= task.name %></div>
+    </div>
+  <% end  %>
+</div>

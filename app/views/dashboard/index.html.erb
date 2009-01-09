@@ -1,10 +1,8 @@
 <h2>Projects</h2>
 
-<ul>
-  <% @projects.each do |project| %>
-    <li><%= link_to project.name, project %></li>
-  <% end %>
-</ul>
+<div class="dashboard">
+  <%= render :partial => 'project', :collection => @projects %>
+</div>
 
 <p>
   <%= link_to "Create project", new_project_path %>

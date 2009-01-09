@@ -4,9 +4,11 @@ html, body, #doc3 {
 }
 
 #hd {
-    height: 30px;
+    height: 25px;
     border-bottom: 3px solid black;
-    padding: 20px 0px 10px 10px;
+    padding: 15px 0px 10px 10px;
+
+    background: transparent url('../images/therm.gif') bottom right no-repeat;
 }
 
 #hd h1 {
@@ -28,4 +30,52 @@ html, body, #doc3 {
 
 #content {
     padding: 10px;
+}
+
+.dashboard .project:after {
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.dashboard .project {
+    margin: 10px;
+    border: 1px solid black;
+    padding: 10px;
+    display: block;
+    clear: both;
+}
+
+.dashboard .project .title {
+    font-size: 150%;
+    font-weight: bold;
+}
+
+.dashboard .project .pipline {
+    margin: 10px;
+    border: 1px solid black;
+}
+
+.pipeline .number {
+    float: left;
+}
+
+.pipeline .task {
+    float: left;
+    height: 150px;
+    width: 150px;
+    background: #cecece;
+    border: 1px solid #333333;
+    margin: 10px;
+}
+
+.dashboard .task .title {
+    font-size: 100%;
+    font-weight: normal;
+    height: 20px;
+    overflow: hidden;
+    background: #dedede;
+    text-align: center;
 }

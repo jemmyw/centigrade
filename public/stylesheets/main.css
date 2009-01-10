@@ -32,7 +32,15 @@ html, body, #doc3 {
     padding: 10px;
 }
 
-.dashboard .project:after {
+.next-image {
+    display: block;
+    float: left;
+    height: 150px;
+    width: 32px;
+    background: transparent url(../images/go-next.png) center center no-repeat;
+}
+
+.clearfix:after {
     content: ".";
     display: block;
     height: 0;
@@ -53,13 +61,15 @@ html, body, #doc3 {
     font-weight: bold;
 }
 
-.dashboard .project .pipline {
+.dashboard .project .pipeline {
     margin: 10px;
-    border: 1px solid black;
+    padding: 10px;
+    background: #f5f5f5;
 }
 
 .pipeline .number {
     float: left;
+    font-size: 200%;
 }
 
 .pipeline .task {
@@ -68,7 +78,8 @@ html, body, #doc3 {
     width: 150px;
     background: #cecece;
     border: 1px solid #333333;
-    margin: 10px;
+    margin: 0px 10px 0px 10px;
+    overflow: hidden;
 }
 
 .dashboard .task .title {

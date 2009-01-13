@@ -68,6 +68,7 @@ module CentigradeTask
       initialize_attributes(attributes)
 
       @data = Marshal.load(File.read(@data_path)) if File.exists?(@data_path)
+      @messages = []
     end
 
     def execute
@@ -91,9 +92,12 @@ module CentigradeTask
       @status
     end
 
-    def message(*args)
-      @message = args.first if args.any?
-      @message
+    def message(msg)
+      @messages << msg
+    end
+
+    def messages
+      @messages
     end
   end
 

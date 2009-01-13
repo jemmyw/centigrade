@@ -1,10 +1,10 @@
-require 'test_helper'
+require File.dirname(__FILE__) + '/../test_helper'
 
 class TaskTest < ActiveSupport::TestCase
   should_require_attributes :name, :pipeline, :task_type
   should_belong_to :pipeline
   should_have_many :options
-  should_have_many :messages
+  should_have_many :runs
 
   context 'a new task' do
     should 'be invalid unless the class type implements attributes' do
@@ -34,7 +34,7 @@ class TaskTest < ActiveSupport::TestCase
       
       TaskExecuter.any_instance.stubs(:execute).returns(true)
       TaskExecuter.any_instance.stubs(:status).returns(TaskStatus::SUCCESS)
-      TaskExecuter.any_instance.stubs(:message).returns('Test message')
+      TaskExecuter.any_instance.stubs(:messages).returns(['Test message'])
     end
 
     should 'return the task class on task_type_class' do
@@ -58,16 +58,6 @@ class TaskTest < ActiveSupport::TestCase
       @task.expects(:status=).with(TaskStatus::RUNNING).when(status.is('waiting')).then(status.is('running'))
       @task.expects(:status=).with(TaskStatus::WAITING).when(status.is('running'))
       @task.execute
-    end
-
-    should 'always have a new message after execution' do
-      message_count = @task.messages.size
-      @task.execute
-      assert_equal message_count+1, @task.messages.size
-
-      message = @task.messages.last
-      assert_equal TaskStatus::SUCCESS, message.status
-      assert_equal "Test message", message.message
     end
   end
   

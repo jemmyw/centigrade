@@ -9,12 +9,6 @@ Factory.define :task do |t|
       o.association(:task_option, :name => 'test_required_attribute', :value => 'goodbye')
     ]
   }
-  t.messages {|m|
-    [
-      m.association(:task_message),
-      m.association(:task_message)
-    ]
-  }
   t.association :pipeline
 end
 
@@ -28,13 +22,12 @@ Factory.define :svn_task, :class => Task do |t|
       o.association(:task_option, :name => 'password', :value => 'test')
     ]
   }
-  t.messages {|m|
-    [
-      m.association(:task_message),
-      m.association(:task_message)
-    ]
-  }
   t.association :pipeline
+end
+
+Factory.define :task_run do |t|
+  t.status 'success'
+  t.association :task
 end
 
 Factory.define :task_option do |t|
@@ -45,4 +38,5 @@ end
 Factory.define :task_message do |m|
   m.status 'failed'
   m.message "Test Message"
+  m.association :task_run
 end

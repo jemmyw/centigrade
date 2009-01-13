@@ -60,6 +60,5 @@ class TaskExecuterTest < ActiveSupport::TestCase
         assert_equal 'task_run', @task_run.messages.last.message
       end
     end
-
   end
 end

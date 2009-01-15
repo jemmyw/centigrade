@@ -4,13 +4,8 @@
   </div>
 
   <% pipeline.tasks.each do |task| %>
-    <div class="task" id="task_<%= task.id %>">
-      <div class="title"><%= task.name %></div>
-      <div class="task-widget">
-        <%= task_widget(task) %>
-      </div>
-    </div>
-
+    <%= render :partial => 'task', :object => task %>
+  
     <% unless task == pipeline.tasks.last %>
       <div class="next-image">&nbsp;</div>
     <% end %>

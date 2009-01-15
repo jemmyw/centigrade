@@ -10,6 +10,10 @@ class Pipeline < ActiveRecord::Base
     tasks.all?{|t| t.success? }
   end
 
+  def running?
+    tasks.any?{|t| t.status == TaskStatus::RUNNING }
+  end
+
   def execute
     tasks_to_execute = tasks.dup
 
@@ -18,7 +22,15 @@ class Pipeline < ActiveRecord::Base
 
       if executer.status == TaskStatus::WAIT
         tasks_to_execute.unshift(task)
-        sleep(30)
+
+        if $centigrade_running.nil?
+          sleep(30)
+        else
+          30.times do
+            sleep(1)
+            return unless $centigrade_running
+          end
+        end
       elsif executer.status == TaskStatus::FAILED
         break
       end

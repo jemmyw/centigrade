@@ -1,9 +1,11 @@
 <h2>Projects</h2>
 
-<div class="dashboard">
+<div class="dashboard" id="dashboard">
   <%= render :partial => 'project', :collection => @projects %>
 </div>
 
 <p>
   <%= link_to "Create project", new_project_path %>
 </p>
+
+<%= periodically_call_remote(:url => dashboard_path, :frequency => 5) %>

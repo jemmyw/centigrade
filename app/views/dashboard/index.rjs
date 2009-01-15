@@ -1,0 +1,1 @@
+page.replace_html 'dashboard', :partial => 'project', :collection => @projects

@@ -1,10 +1,14 @@
+require 'centigrade_log'
+
 class TaskExecuter
+  include Centigrade::Log
+
   def initialize(task)
     @task = task
   end
 
   def execute
-    $stdout.write "\nExecuting task %s:" % @task.name
+    logger.info "Executing task %s:" % @task.name
 
     @options = @task.options_as_hash
     @task_object = @task.task_type_instance
@@ -25,7 +29,7 @@ class TaskExecuter
       @task_run.update_attribute(:status, TaskStatus::FAILED)
     end
 
-    $stdout.write "\t\t\t[%s]" % self.status
+    logger.info "Task %s finished with status %s" % [@task.name, self.status]
   end
 
   def status

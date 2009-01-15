@@ -76,7 +76,6 @@ module CommandLine
 
   def e(cmd, options, &proc)
     full_cmd = full_cmd(cmd, options, &proc)
-    puts full_cmd
 
     options[:env].each{|k,v| ENV[k]=v}
     begin

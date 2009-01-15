@@ -1,5 +1,12 @@
-<ul>
-  <li>110: xyz</li>
-  <li>109: xyz</li>
-  <li>108: xyz</li>
-</ul>
+<% if @task_type.data[:log] %>
+  <% @task_type.data[:log][-5..-1].reverse.each do |revision| %>
+    <div>
+      <strong>
+        <%= revision.number %>:
+      </strong>
+      <%= revision.message %>
+    </div>
+  <% end %>
+<% else %>
+  No revision data
+<% end %>

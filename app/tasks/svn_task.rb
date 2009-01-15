@@ -18,6 +18,8 @@ class SvnTask < CentigradeTask::Base
     @subversion = Subversion.new(@options)
 
     reasons = []
+    
+    update_log_data
 
     message "Checking #{url}"
     if @subversion.up_to_date?(reasons)
@@ -43,6 +45,16 @@ class SvnTask < CentigradeTask::Base
       "Verified"
     rescue Exception => e
       "Error: #{e}"
+    end
+  end
+
+  private
+  def update_log_data
+    unless data[:log]
+      data[:log] = Subversion::LogParser.new.parse(@subversion.send(:log, '0', 'HEAD'))
+    else
+      last_revision = data[:log].last.number
+      data[:log].push(*Subversion::LogParser.new.parse(@subversion.send(:log, last_revision.to_s, 'HEAD')))
     end
   end
 end

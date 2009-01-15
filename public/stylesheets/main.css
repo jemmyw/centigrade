@@ -3,6 +3,10 @@ html, body, #doc3 {
     padding: 0;
 }
 
+strong {
+    font-weight: bold;
+}
+
 #hd {
     height: 25px;
     border-bottom: 3px solid black;

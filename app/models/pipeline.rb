@@ -2,6 +2,14 @@ class Pipeline < ActiveRecord::Base
   belongs_to :project
   has_many :tasks, :order => 'position'
 
+  def last_run_at
+    (tasks.collect(&:started_at) + tasks.collect(&:finished_at)).sort.last
+  end
+
+  def success?
+    tasks.all?{|t| t.success? }
+  end
+
   def execute
     tasks_to_execute = tasks.dup
 

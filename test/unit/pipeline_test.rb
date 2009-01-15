@@ -46,5 +46,14 @@ class PipelineTest < ActiveSupport::TestCase
       @pipeline.execute
     end
 
+    should 'success? should return true if all tasks are successful' do
+      Task.any_instance.stubs(:success?).returns(true)
+      assert @pipeline.success?
+    end
+
+    should 'success? returns false if any tasks failed' do
+      @pipeline.tasks[1].stubs(:success?).returns(false)
+      assert !@pipeline.success?
+    end
   end
 end

@@ -45,11 +45,19 @@ class Task < ActiveRecord::Base
     Hash[*options.collect{|option| [option.name, option.value]}.flatten]
   end
 
+  def task_type_instance
+    task_type_class.new(self.pipeline.project.path, options_as_hash)
+  end
+
   def task_type_class
     @task_type_class ||= Kernel.const_get(self.task_type) rescue nil
   end
 
   def last_run
     runs.find(:first, :order => 'created_at DESC')
+  end
+
+  def success?
+    last_run.andand.status == TaskStatus::SUCCESS
   end
 end

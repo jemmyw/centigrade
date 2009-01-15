@@ -34,6 +34,7 @@ class CentigradeTaskTest < ActiveSupport::TestCase
         :test_attribute => 'test',
         :test_required_attribute => 'required test'
       )
+      @task.stubs(:save_data)
     end
 
     should 'have attributes as accessors' do
@@ -49,6 +50,11 @@ class CentigradeTaskTest < ActiveSupport::TestCase
       @task.expects(:execute!).returns('hello')
       assert_equal 'hello', @task.execute
       assert_equal '/tmp', @task.instance_variable_get('@path')
+    end
+
+    should 'save data after executing' do
+      @task.expects(:save_data)
+      @task.execute
     end
   end
 

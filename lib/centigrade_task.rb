@@ -73,9 +73,7 @@ module CentigradeTask
 
     def execute
       returning execute! do
-        File.open(@data_path, 'w') do |file|
-          file.write Marshal.dump(data)
-        end
+        save_data
       end
     end
       
@@ -98,6 +96,13 @@ module CentigradeTask
 
     def messages
       @messages
+    end
+
+    private
+    def save_data
+      File.open(@data_path, 'w') do |file|
+        file.write Marshal.dump(data)
+      end
     end
   end
 

@@ -59,6 +59,23 @@ class TaskTest < ActiveSupport::TestCase
       @task.expects(:status=).with(TaskStatus::WAITING).when(status.is('running'))
       @task.execute
     end
+
+    should 'return success? if it has a task run with a successful status' do
+      @task.runs << Factory(:task_run, :status => TaskStatus::SUCCESS, :task => @task)
+      assert @task.success?
+    end
+
+    should 'not return success? if the last task run has a failed status' do
+      @task.runs << Factory(:task_run, :status => TaskStatus::SUCCESS, :task => @task, :created_at => Time.now - 1.hour)
+      @task.runs << Factory(:task_run, :status => TaskStatus::FAILED, :task => @task, :created_at => Time.now)
+
+      assert_equal false, @task.success?
+    end
+
+    should 'not return success? if there are no task runs' do
+      assert_equal 0, @task.runs.size
+      assert_equal false, @task.success?
+    end
   end
   
   context "svn task instance" do

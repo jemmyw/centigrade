@@ -7,7 +7,7 @@ class TaskExecuter
     $stdout.write "\nExecuting task %s:" % @task.name
 
     @options = @task.options_as_hash
-    @task_object = @task.task_type_class.new(@task.pipeline.project.path, @options)
+    @task_object = @task.task_type_instance
 
     @task_run = TaskRun.create(:status => 'running')
     @task.runs << @task_run

@@ -47,7 +47,7 @@ class SvnTaskTest < ActiveSupport::TestCase
     should 'update the log data with new log if there is already data' do
       revision = mock(:number => 2)
       Subversion.any_instance.stubs(:up_to_date?).returns(true)
-      Subversion.any_instance.expects(:log).with('2', 'HEAD').returns("data")
+      Subversion.any_instance.expects(:log).with('3', 'HEAD').returns("data")
       Subversion::LogParser.any_instance.expects(:parse).with("data").returns(["other data"])
       @svn.stubs(:data).returns({:log => [revision]})
       @svn.execute

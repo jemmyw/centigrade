@@ -1,7 +1,6 @@
 <div class="task" id="task_<%= task.id %>">
-  <div class="title">
+  <div class="title <%= task.status %>">
     <%= task.name %>
-    (<%= task.status  %>)
   </div>
   <div class="task-widget">
     <%= task_widget(task) %>

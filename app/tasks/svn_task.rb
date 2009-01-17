@@ -54,7 +54,7 @@ class SvnTask < CentigradeTask::Base
       data[:log] = Subversion::LogParser.new.parse(@subversion.send(:log, '0', 'HEAD'))
     else
       last_revision = data[:log].last.number
-      data[:log].push(*Subversion::LogParser.new.parse(@subversion.send(:log, last_revision.to_s, 'HEAD')))
+      data[:log].push(*Subversion::LogParser.new.parse(@subversion.send(:log, (last_revision+1).to_s, 'HEAD')))
     end
   end
 end

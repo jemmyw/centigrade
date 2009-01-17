@@ -1,0 +1,21 @@
+#!/usr/bin/env ruby
+
+require 'rubygems' rescue nil
+require 'daemons'
+require 'lib/multilog'
+
+path = File.expand_path(File.join(File.basename(__FILE__), '..'))
+
+Daemons.run_proc('daemon.rb') do
+  $: << path
+  $: << File.join(path, 'lib')
+  Dir.chdir(path)
+
+  load File.join(path, 'lib/daemon.rb')
+
+  Centigrade::Daemon.logger = MultiLog.new(Centigrade::Daemon.logger, Logger.new($stdout))
+  ActiveRecord::Base.logger = Centigrade::Daemon.logger
+  
+  daemon = Centigrade::Daemon.new
+  daemon.run
+end

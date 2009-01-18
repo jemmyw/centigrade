@@ -22,7 +22,9 @@ class Pipeline < ActiveRecord::Base
 
       if executer.status == TaskStatus::WAIT
         tasks_to_execute.unshift(task)
-        sleep(30)
+        30.times do
+          sleep(1)
+        end
       elsif executer.status == TaskStatus::FAILED
         break
       end

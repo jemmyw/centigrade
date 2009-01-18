@@ -15,27 +15,16 @@ class SvnTask < CentigradeTask::Base
     @options[:username] = self.username unless self.username.blank?
     @options[:password] = self.password unless self.password.blank?
 
-    @subversion = Subversion.new(@options)
+    @subversion = Subversion.new(@options.dup)
 
-    reasons = []
-    
     update_log_data
 
-    message "Checking #{url}"
-    if @subversion.up_to_date?(reasons)
-      reasons.each {|r| message r}
-      status TaskStatus::WAIT and return
-    end
-
-    if File.exists?(path)
-      message "Updating from #{url}"
-      @subversion.update
+    if up_to_date?
+      status TaskStatus::WAIT
     else
-      message "Checking out from #{url}"
-      @subversion.checkout
+      update_or_checkout
+      status TaskStatus::SUCCESS
     end
-    
-    status TaskStatus::SUCCESS
   end
 
   def self.verify(attributes)
@@ -49,6 +38,26 @@ class SvnTask < CentigradeTask::Base
   end
 
   private
+  def up_to_date?
+    reasons = []
+    message "Checking #{url}"
+
+    result = @subversion.up_to_date?(reasons)
+    reasons.each {|r| message r}
+    
+    result
+  end
+
+  def update_or_checkout
+    if File.exists?(@options[:path])
+      message "Updating from #{@options[:url]}"
+      @subversion.update
+    else
+      message "Checking out from #{@options[:url]}"
+      @subversion.checkout
+    end
+  end
+
   def update_log_data
     unless data[:log]
       data[:log] = Subversion::LogParser.new.parse(@subversion.send(:log, '0', 'HEAD'))

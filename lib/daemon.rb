@@ -24,32 +24,34 @@ module Centigrade
         Thread.new do
           while $centigrade_running
             pipeline.execute
-            sleep(30)
-          end
-        end
-      end
-
-      @status_thread = Thread.new do
-        30.times do
-          sleep(1)
-          break unless $centigrade_running
-        end
-
-        logger.info "Centigrade Status"
-        logger.info "================="
-        logger.info "Threads: %d" % @threads.size
-
-        unless $centigrade_running
-          Thread.exclusive do
-            @threads.each do |thread|
-              thread.exit
+            30.times do
+              sleep(1)
             end
           end
         end
       end
 
-      @threads.each do |thread|
-        thread.join
+      @status_thread = Thread.new do
+        while true
+          30.times do
+            sleep(1)
+            break unless $centigrade_running
+          end
+
+          logger.info "Centigrade Status"
+          logger.info "================="
+          logger.info "Threads: %d" % @threads.size
+
+          unless $centigrade_running
+            Thread.exclusive do
+              @threads.each do |thread|
+                thread.exit
+              end
+
+              Thread.exit
+            end
+          end
+        end
       end
 
       @status_thread.join
